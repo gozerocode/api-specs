@@ -1,0 +1,324 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Api Documentation",
+        "description": "Api Documentation",
+        "termsOfService": "urn:tos",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        },
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:18080",
+            "description": "Inferred Url"
+        }
+    ],
+    "tags": [
+        {
+            "name": "account-controller",
+            "description": "Account Controller"
+        }
+    ],
+    "paths": {
+        "/accounts/all": {
+            "get": {
+                "tags": [
+                    "account-controller"
+                ],
+                "summary": "getAllAccounts",
+                "operationId": "getAllAccountsUsingGET",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Account"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/accounts/new": {
+            "post": {
+                "tags": [
+                    "account-controller"
+                ],
+                "summary": "createNewAccount",
+                "operationId": "createNewAccountUsingPOST",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Account"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseEntity"
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/accounts/{id}": {
+            "get": {
+                "tags": [
+                    "account-controller"
+                ],
+                "summary": "getAccountById",
+                "operationId": "getAccountByIdUsingGET",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Account"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Account": {
+                "title": "Account",
+                "type": "object",
+                "properties": {
+                    "accountBalance": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "accountId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "accountType": {
+                        "type": "string"
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/Customer"
+                    }
+                }
+            },
+            "Address": {
+                "title": "Address",
+                "type": "object",
+                "properties": {
+                    "addressId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    },
+                    "customer": {
+                        "$ref": "#/components/schemas/Customer"
+                    },
+                    "houseNumber": {
+                        "type": "string"
+                    },
+                    "postCode": {
+                        "type": "string"
+                    },
+                    "streetName1": {
+                        "type": "string"
+                    },
+                    "streetName2": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Customer": {
+                "title": "Customer",
+                "type": "object",
+                "properties": {
+                    "account": {
+                        "$ref": "#/components/schemas/Account"
+                    },
+                    "address": {
+                        "$ref": "#/components/schemas/Address"
+                    },
+                    "customerId": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "dateOfBirth": {
+                        "type": "string"
+                    },
+                    "drivingLicenseNumber": {
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "type": "string"
+                    },
+                    "middleName": {
+                        "type": "string"
+                    },
+                    "mobileNumber": {
+                        "type": "string"
+                    },
+                    "passportNumber": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseEntity": {
+                "title": "ResponseEntity",
+                "type": "object",
+                "properties": {
+                    "body": {
+                        "type": "object"
+                    },
+                    "statusCode": {
+                        "type": "string",
+                        "enum": [
+                            "ACCEPTED",
+                            "ALREADY_REPORTED",
+                            "BAD_GATEWAY",
+                            "BAD_REQUEST",
+                            "BANDWIDTH_LIMIT_EXCEEDED",
+                            "CHECKPOINT",
+                            "CONFLICT",
+                            "CONTINUE",
+                            "CREATED",
+                            "DESTINATION_LOCKED",
+                            "EXPECTATION_FAILED",
+                            "FAILED_DEPENDENCY",
+                            "FORBIDDEN",
+                            "FOUND",
+                            "GATEWAY_TIMEOUT",
+                            "GONE",
+                            "HTTP_VERSION_NOT_SUPPORTED",
+                            "IM_USED",
+                            "INSUFFICIENT_SPACE_ON_RESOURCE",
+                            "INSUFFICIENT_STORAGE",
+                            "INTERNAL_SERVER_ERROR",
+                            "I_AM_A_TEAPOT",
+                            "LENGTH_REQUIRED",
+                            "LOCKED",
+                            "LOOP_DETECTED",
+                            "METHOD_FAILURE",
+                            "METHOD_NOT_ALLOWED",
+                            "MOVED_PERMANENTLY",
+                            "MOVED_TEMPORARILY",
+                            "MULTIPLE_CHOICES",
+                            "MULTI_STATUS",
+                            "NETWORK_AUTHENTICATION_REQUIRED",
+                            "NON_AUTHORITATIVE_INFORMATION",
+                            "NOT_ACCEPTABLE",
+                            "NOT_EXTENDED",
+                            "NOT_FOUND",
+                            "NOT_IMPLEMENTED",
+                            "NOT_MODIFIED",
+                            "NO_CONTENT",
+                            "OK",
+                            "PARTIAL_CONTENT",
+                            "PAYLOAD_TOO_LARGE",
+                            "PAYMENT_REQUIRED",
+                            "PERMANENT_REDIRECT",
+                            "PRECONDITION_FAILED",
+                            "PRECONDITION_REQUIRED",
+                            "PROCESSING",
+                            "PROXY_AUTHENTICATION_REQUIRED",
+                            "REQUESTED_RANGE_NOT_SATISFIABLE",
+                            "REQUEST_ENTITY_TOO_LARGE",
+                            "REQUEST_HEADER_FIELDS_TOO_LARGE",
+                            "REQUEST_TIMEOUT",
+                            "REQUEST_URI_TOO_LONG",
+                            "RESET_CONTENT",
+                            "SEE_OTHER",
+                            "SERVICE_UNAVAILABLE",
+                            "SWITCHING_PROTOCOLS",
+                            "TEMPORARY_REDIRECT",
+                            "TOO_EARLY",
+                            "TOO_MANY_REQUESTS",
+                            "UNAUTHORIZED",
+                            "UNAVAILABLE_FOR_LEGAL_REASONS",
+                            "UNPROCESSABLE_ENTITY",
+                            "UNSUPPORTED_MEDIA_TYPE",
+                            "UPGRADE_REQUIRED",
+                            "URI_TOO_LONG",
+                            "USE_PROXY",
+                            "VARIANT_ALSO_NEGOTIATES"
+                        ]
+                    },
+                    "statusCodeValue": {
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                }
+            }
+        }
+    }
+}
